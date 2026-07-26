@@ -1,0 +1,377 @@
+schema:
+  name: realitydb-evidence-scoring
+  version: "1.0"
+  status: active
+  purpose: >
+    Standardize how Gemini, DeepSeek, Kimi, and the Research Director
+    record, score, compare, and challenge research evidence.
+
+scoring_scale:
+  minimum: 1
+  maximum: 5
+
+dimensions:
+
+  source_authority:
+    description: How authoritative and accountable is the source?
+    scores:
+      1: Anonymous, unverifiable, or unknown source
+      2: Personal opinion or informal commentary
+      3: Independent publication or practitioner source
+      4: Recognized industry, regulatory, or academic authority
+      5: Official primary source or direct organizational record
+
+  evidence_quality:
+    description: How directly does the evidence support the claim?
+    scores:
+      1: Speculation or unsupported assertion
+      2: Anecdotal observation
+      3: Indirect or partially relevant support
+      4: Direct supporting evidence
+      5: Direct measurement, documented implementation, or verified outcome
+
+  independence:
+    description: How independent is the evidence from other cited evidence?
+    scores:
+      1: Repetition of the same originating source
+      2: Mostly derivative or closely connected sources
+      3: Partially independent confirmation
+      4: Independent evidence from multiple organizations
+      5: Independent confirmation across unrelated organizations or source types
+
+  commercial_relevance:
+    description: How materially does the evidence affect a product or market decision?
+    scores:
+      1: Interesting but commercially irrelevant
+      2: Weak potential relevance
+      3: Useful commercial context
+      4: Important to product, buyer, pricing, adoption, or positioning
+      5: Critical evidence capable of changing the product decision
+
+  recurrence:
+    description: How frequently does the same underlying problem or pattern appear?
+    scores:
+      1: Single isolated occurrence
+      2: Rare or weakly repeated
+      3: Appears in several cases
+      4: Common across multiple organizations or workflows
+      5: Systemic and repeatedly observed across industries or segments
+
+  timeliness:
+    description: How current and applicable is the evidence?
+    scores:
+      1: Obsolete or no longer applicable
+      2: Old and requires substantial validation
+      3: Still relevant but not recent
+      4: Current
+      5: Represents the latest verified state
+
+calculation:
+  method: sum
+  dimensions:
+    - source_authority
+    - evidence_quality
+    - independence
+    - commercial_relevance
+    - recurrence
+    - timeliness
+  minimum_total: 6
+  maximum_total: 30
+
+score_bands:
+
+  very_strong:
+    minimum: 26
+    maximum: 30
+    meaning: Strong enough to support major decisions, subject to contradiction review
+    permitted_use:
+      - strategic recommendation
+      - product hypothesis support
+      - decision gate input
+
+  strong:
+    minimum: 21
+    maximum: 25
+    meaning: Reliable evidence with limited uncertainty
+    permitted_use:
+      - recommendation support
+      - product hypothesis support
+      - follow-up validation
+
+  moderate:
+    minimum: 16
+    maximum: 20
+    meaning: Useful evidence requiring corroboration
+    permitted_use:
+      - pattern identification
+      - hypothesis strengthening
+      - follow-up research
+
+  weak:
+    minimum: 11
+    maximum: 15
+    meaning: Insufficient for strategic conclusions
+    permitted_use:
+      - hypothesis generation
+      - exploratory research
+
+  very_weak:
+    minimum: 6
+    maximum: 10
+    meaning: Unreliable or insufficient evidence
+    permitted_use:
+      - lead generation only
+      - source discovery only
+
+confidence_levels:
+
+  high:
+    definition: >
+      Supported by multiple independent, high-quality sources with little
+      unresolved contradiction.
+
+  moderate:
+    definition: >
+      Supported by credible evidence, but important uncertainty or
+      contradiction remains.
+
+  low:
+    definition: >
+      Limited, indirect, dependent, outdated, or conflicting evidence.
+
+  unknown:
+    definition: >
+      Insufficient evidence to form a defensible conclusion.
+
+source_tiers:
+
+  S:
+    name: Primary evidence
+    examples:
+      - official documentation
+      - source code
+      - regulations
+      - regulatory filings
+      - standards
+      - official pricing
+      - public technical architecture
+      - release notes
+
+  A:
+    name: Direct market evidence
+    examples:
+      - customer implementations
+      - procurement documents
+      - RFPs
+      - incident reports
+      - conference implementation talks
+      - migration documentation
+
+  B:
+    name: Independent analysis
+    examples:
+      - peer-reviewed research
+      - academic studies
+      - independent benchmarks
+      - university research
+      - transparent industry research
+
+  C:
+    name: Market signals
+    examples:
+      - job postings
+      - hiring trends
+      - product announcements
+      - developer surveys
+      - conference agendas
+
+  D:
+    name: Community knowledge
+    examples:
+      - GitHub issues
+      - Stack Overflow
+      - Reddit
+      - Hacker News
+      - community forums
+      - practitioner blogs
+
+  E:
+    name: Opinion
+    examples:
+      - social media commentary
+      - podcasts
+      - editorials
+      - vendor marketing claims
+      - unsupported personal opinions
+
+required_record_fields:
+
+  - evidence_id
+  - mission_id
+  - investigator
+  - claim
+  - evidence_type
+  - source_title
+  - source_organization
+  - source_url
+  - publication_date
+  - access_date
+  - source_tier
+  - supporting_excerpt
+  - observation
+  - interpretation
+  - assumptions
+  - contradictory_evidence
+  - scores
+  - total_score
+  - confidence
+  - commercial_implication
+  - unresolved_questions
+
+evidence_record_template:
+
+  evidence_id: "EV-0001"
+  mission_id: "MISSION-001"
+  investigator: "gemini | deepseek | kimi | research-director"
+
+  claim: ""
+  evidence_type: "document | implementation | regulation | pricing | job_posting | benchmark | interview | community | other"
+
+  source:
+    title: ""
+    organization: ""
+    author: ""
+    url: ""
+    publication_date: "YYYY-MM-DD | unknown"
+    access_date: "YYYY-MM-DD"
+    source_tier: "S | A | B | C | D | E"
+
+  supporting_excerpt: ""
+
+  analysis:
+    observation: ""
+    interpretation: ""
+    assumptions: []
+    contradictory_evidence: []
+    commercial_implication: ""
+    unresolved_questions: []
+
+  scores:
+    source_authority: 1
+    evidence_quality: 1
+    independence: 1
+    commercial_relevance: 1
+    recurrence: 1
+    timeliness: 1
+
+  total_score: 6
+  score_band: "very_weak"
+  confidence: "unknown"
+
+  reviewer:
+    challenged: false
+    challenge_notes: ""
+    accepted: false
+    rejection_reason: ""
+
+validation_rules:
+
+  - id: VR-001
+    rule: Every scoring dimension must contain an integer from 1 through 5.
+
+  - id: VR-002
+    rule: Total score must equal the sum of all six scoring dimensions.
+
+  - id: VR-003
+    rule: A major conclusion may not rely solely on Tier D or Tier E evidence.
+
+  - id: VR-004
+    rule: Multiple sources derived from the same original source count as one evidence chain.
+
+  - id: VR-005
+    rule: Contradictory evidence must be recorded and may not be omitted.
+
+  - id: VR-006
+    rule: Observation, interpretation, and assumption must be recorded separately.
+
+  - id: VR-007
+    rule: Evidence scoring 20 or below requires corroboration before supporting a product decision.
+
+  - id: VR-008
+    rule: Evidence scoring 21 or above may still be rejected when source dependency or contradiction is material.
+
+  - id: VR-009
+    rule: A high confidence conclusion requires more than one independent evidence chain.
+
+  - id: VR-010
+    rule: Unknown publication dates must reduce the timeliness score unless justified.
+
+  - id: VR-011
+    rule: Vendor claims about their own effectiveness require independent confirmation.
+
+  - id: VR-012
+    rule: Lack of discovered evidence must be recorded as missing evidence, not treated as proof that no problem exists.
+
+decision_gates:
+
+  product_problem_gate:
+    required:
+      - recurring_problem_supported
+      - affected_customer_identified
+      - current_workaround_documented
+      - economic_consequence_supported
+      - contradictory_evidence_reviewed
+
+  commercial_gate:
+    required:
+      - buyer_identified
+      - budget_owner_investigated
+      - willingness_to_pay_evidence
+      - alternatives_understood
+      - adoption_barriers_documented
+
+  product_hypothesis_gate:
+    minimum_supporting_evidence_chains: 3
+    minimum_average_score: 21
+    requires_primary_or_direct_market_evidence: true
+    requires_contradiction_review: true
+    requires_blind_spot_review: true
+
+  product_definition_gate:
+    permitted_verdicts:
+      - proceed
+      - proceed_with_reservations
+    prohibited_when:
+      - critical_unknowns_unresolved
+      - buyer_unverified
+      - problem_not_recurring
+      - existing_alternative_not_assessed
+      - commercial_value_unsupported
+
+research_debt_categories:
+
+  - buyer
+  - user
+  - problem_frequency
+  - problem_severity
+  - economic_value
+  - willingness_to_pay
+  - procurement
+  - competition
+  - substitutes
+  - implementation
+  - integration
+  - security
+  - privacy
+  - regulation
+  - adoption
+  - switching_cost
+  - technical_feasibility
+  - operational_maintenance
+  - differentiation
+
+final_rule: >
+  Scores support judgment but do not replace it. High-scoring evidence may
+  still be misleading, dependent, incomplete, commercially irrelevant, or
+  contradicted. The Research Director must challenge the evidence before it
+  can influence product definition.
