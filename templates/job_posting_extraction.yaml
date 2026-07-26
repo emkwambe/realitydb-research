@@ -1,0 +1,31 @@
+source_id: ""
+company: ""
+industry: ""
+job_title: ""
+posting_date: ""
+access_date: ""
+location: ""
+work_arrangement: ""
+salary_range: ""
+team: ""
+reports_to: ""
+company_stage: ""
+production_status: "unknown"
+
+responsibilities: []
+data_sources: []
+metrics: []
+tools: []
+evaluation_methods: []
+compliance_requirements: []
+recurring_failures: []
+internal_systems: []
+required_experience: []
+
+buyer_signal: ""
+build_vs_buy_signal: ""
+realitydb_relevance: ""
+source_quote: ""
+source_url: ""
+evidence_classification: "verified"
+researcher_notes: ""

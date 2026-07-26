@@ -1,0 +1,26 @@
+source_id: ""
+company: ""
+industry: ""
+source_type: ""
+title: ""
+publication_date: ""
+access_date: ""
+source_url: ""
+
+agent_use_case: ""
+production_status: ""
+data_sources: []
+evaluation_metrics: []
+evaluation_methods: []
+platform_architecture: []
+internal_systems: []
+vendors_used: []
+compliance_requirements: []
+failures_addressed: []
+team_ownership: []
+
+verified_findings: []
+supported_inferences: []
+contradictory_evidence: []
+realitydb_opportunity: ""
+researcher_notes: ""

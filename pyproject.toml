@@ -1,0 +1,14 @@
+[project]
+name = "realitydb-ai-assurance-research"
+version = "0.1.0"
+description = "Research tooling for enterprise AI evaluation and assurance market discovery"
+requires-python = ">=3.12"
+dependencies = [
+  "pandas>=2.2",
+  "pyyaml>=6.0",
+  "jupyter>=1.0",
+  "matplotlib>=3.9"
+]
+
+[tool.ruff]
+line-length = 100
